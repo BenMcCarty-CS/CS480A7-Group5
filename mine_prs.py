@@ -56,6 +56,7 @@ class PRData:
 	# Page limit is for testing purposes only, hence why the default is unlimited. 
 	def __init__(self, page_limit=2147483648):
 		self.prs = self.minePRs(page_limit, URL)
+		# Comments is a Dictionary, mapping PR number to a list of their associated comments json responses.
 		self.comments = self.mineComments(page_limit, self.prs)
 		print("All comments and PRs of relevance have been obtained.")
 
