@@ -11,17 +11,21 @@ load_dotenv()
 OWNER = "zephyrproject-rtos"
 REPO = "zephyr"
 URL = f"https://api.github.com/repos/{OWNER}/{REPO}/pulls"
+EARLIEST_TIME = dt.fromisoformat("2021-09-24T23:59:59Z")
+LATEST_TIME = dt.fromisoformat("2026-09-25T00:00:01Z")
 
 HEADERS = {
 	"Accept": "appliction/vnd.github+json",
 	"Authorization": f"Bearer {os.getenv("GITHUB_TOKEN")}",
 }
-params = {
-	"per_page": 100,
-	"page": 1
-}
+
 
 def mine(page_limit, url):
+		params = {
+					"state": "closed",
+					"per_page": 100,
+					"page": 1
+				}
 		data = []
 		has_more_pages = True
 
@@ -48,17 +52,21 @@ def mine(page_limit, url):
 
 class PRData:
 
-	# Creates a 5 year window, as we're required to do a minimum of 5 years of mining...
-		# so that minimum is what we shall meet. The default values are the intended time frame,
-		# but they should be reduced to much smaller when testing for efficiency.  
+
+	# Page limit is for testing purposes only, hence why the default is unlimited. 
 	def __init__(self, page_limit=2147483648):
 		self.prs = self.minePRs(page_limit, URL)
 		self.comments = self.mineComments(page_limit, self.prs)
+		print("All comments and PRs of relevance have been obtained.")
 
 
 	def minePRs(self, page_limit, url):
 		initial_PRs = mine(page_limit, url)
-		relevant_PRs = [p for p in initial_PRs if p["draft"] == False]
+		relevant_PRs = []
+		for p in initial_PRs:
+			time_created = dt.fromisoformat(p["created_at"])
+			if (p["draft"] == False) and (p["merged_at"] is not None) and (time_created > EARLIEST_TIME) and (time_created < LATEST_TIME):
+				relevant_PRs.append(p)
 		prs = []
 		for pr in relevant_PRs:
 			print(f"Requesting PR:{pr["number"]}'s metadata")
