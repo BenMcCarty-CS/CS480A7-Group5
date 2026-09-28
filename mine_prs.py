@@ -11,14 +11,21 @@ load_dotenv()
 OWNER = "zephyrproject-rtos"
 REPO = "zephyr"
 URL = f"https://api.github.com/repos/{OWNER}/{REPO}/pulls"
+EARLIEST_TIME = dt.fromisoformat("2021-09-24T23:59:59Z")
+LATEST_TIME = dt.fromisoformat("2026-09-25T00:00:01Z")
 
 HEADERS = {
 	"Accept": "appliction/vnd.github+json",
 	"Authorization": f"Bearer {os.getenv("GITHUB_TOKEN")}",
 }
 
-def mine(params, url):
-		print(params)
+
+def mine(page_limit, url):
+		params = {
+					"state": "closed",
+					"per_page": 100,
+					"page": 1
+				}
 		data = []
 		has_more_pages = True
 
@@ -33,7 +40,7 @@ def mine(params, url):
 				raise PermissionError(f"Oh brother, Github's down again (or my token expired or I bricked the code). Error code is {response.status_code}")
 			page_data = response.json()
 			
-			if not page_data:
+			if not page_data or params["page"] > page_limit:
 				has_more_pages = False
 				break
 
@@ -45,24 +52,22 @@ def mine(params, url):
 
 class PRData:
 
-	# Creates a 5 year window, as we're required to do a minimum of 5 years of mining...
-		# so that minimum is what we shall meet. The default values are the intended time frame,
-		# but they should be reduced to much smaller when testing for efficiency.  
-	def __init__(self, since_date = "2021-07-04T23:59:59Z", until_date = "2026-07-05T00:00:01Z"):
-		print(until_date)
-		params = {
-					"per_page": 100,
-					"since": since_date,
-					"until": until_date,
-					"page": 1
-				}
-		self.prs = self.minePRs(params, URL)
-		self.comments = self.mineComments(params, self.prs)
+
+	# Page limit is for testing purposes only, hence why the default is unlimited. 
+	def __init__(self, page_limit=2147483648):
+		self.prs = self.minePRs(page_limit, URL)
+		# Comments is a Dictionary, mapping PR number to a list of their associated comments json responses.
+		self.comments = self.mineComments(page_limit, self.prs)
+		print("All comments and PRs of relevance have been obtained.")
 
 
-	def minePRs(self, params, url):
-		initial_PRs = mine(params, url)
-		relevant_PRs = [p for p in initial_PRs if p["draft"] == False]
+	def minePRs(self, page_limit, url):
+		initial_PRs = mine(page_limit, url)
+		relevant_PRs = []
+		for p in initial_PRs:
+			time_created = dt.fromisoformat(p["created_at"])
+			if (p["draft"] == False) and (p["merged_at"] is not None) and (time_created > EARLIEST_TIME) and (time_created < LATEST_TIME):
+				relevant_PRs.append(p)
 		prs = []
 		for pr in relevant_PRs:
 			print(f"Requesting PR:{pr["number"]}'s metadata")
@@ -77,21 +82,21 @@ class PRData:
 		return prs
 
 
-	def mineComments(self, params, prs):
+	def mineComments(self, page_limit, prs):
 		comments = {}
 		for pr in prs:
 			print(f"Getting comments for PR {pr["number"]}")
 			url = pr["review_comments_url"]
-			comments_for_pr = mine(params, url)
+			comments_for_pr = mine(page_limit, url)
 			comments[pr["number"]] = comments_for_pr
 		return comments
 
 
 def main():
-	print(os.getenv("GITHUB_TOKEN"))
-	dataObject = PRData("2021-07-05T23:59:59Z", "2021-07-05T23:59:59Z")
-	print(dataObject.prs)
-	print(dataObject.comments)
+	dataObject = PRData(1)
+	print(dataObject.prs[0])
+	for key in dataObject.comments.keys():
+		print(dataObject.comments[key])
 
 
 
