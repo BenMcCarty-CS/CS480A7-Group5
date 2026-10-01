@@ -1,53 +1,38 @@
 from datetime import datetime as dt
 import csv
+import json
+
 
 def parseISODatetime(dateString):
-	if not dateString:
-		return None
-	return dt.fromisoformat(dateString.replace("Z", "+00:00"))
+    if not dateString:
+        return None
+    return dt.fromisoformat(dateString.replace("Z", "+00:00"))
+
+
 
 def makeCSV(data):
-	prs = data.prs
 
-	processedRows = []
+    prs = data.prs
 
-	for pr in prs:
-		prNum = pr["number"]
-		additions = pr["additions"]
-		deletions = pr["deletions"]
-		linesChanged = additions + deletions
-		createdAt = parseISODatetime(pr["created_at"])
-		completedAt = parseISODatetime(pr["merged_at"] or pr["closed_at"])
+    fields = list(prs[0].keys())
 
-		duration = None
-		if createdAt and completedAt:
-			duration = completedAt - createdAt
-		processedRows.append({
-			"prNumber": prNum,
-			"open/closed": pr["state"],
-			"isMerged": pr.get("merged", False),
-			"additions": additions,
-			"deletions": deletions,
-			"linesChanged": linesChanged,
-			"createdAt": pr["created_at"],
-			"completedAt": pr["merged_at"] or pr["closed_at"],
-			"completionTime": duration if duration is not None else "NA"
-		})
+    processesdRows = []
 
-	fields = [
-		"prNumber",
-		"open/closed",
-		"isMerged",
-		"additions",
-		"deletions",
-		"linesChanged",
-		"createdAt",
-		"completedAt",
-		"completionTime"
-	]
+    for pr in prs:
+        row = {}
+        for key in fields:
+            value = pr.get(key)
 
-	outputFileName = "MinedPRsData.csv"
-	with open(outputFileName, "w", newline="", encoding="utf-8") as f:
-		writer = csv.DictWriter(f, fieldnames=fields)
-		writer.writeheader()
-		writer.writerows(processedRows)
+            if isinstance(value, (dict, list)):
+                row[key] = json.dumps(value)
+            elif value is None:
+                row[key] = ""
+            else:
+                row[key] = value
+        processesdRows.append(row)
+
+    outputFileName = "RawData.csv"
+    with open(outputFileName, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fields, quoting=csv.QUOTE_MINIMAL)
+        writer.writeheader()
+        writer.writerows(processesdRows)
