@@ -44,13 +44,13 @@ class PRData:
 
 
 	def mineExtraPRInformation(self, page_limit, prs, params, keyForURLOfInterest):
-		comments = {}
+		extraPRInfo = {}
 		for pr in prs:
 			print(f"Getting extra PR information for PR {pr["number"]}")
 			url = pr[keyForURLOfInterest]
-			comments_for_pr = mine(page_limit, url, params)
-			comments[pr["number"]] = comments_for_pr
-		return comments
+			extraPRInfo_for_pr = mine(page_limit, url, params)
+			extraPRInfo[pr["number"]] = extraPRInfo_for_pr
+		return extraPRInfo
 			
 
 def main():
