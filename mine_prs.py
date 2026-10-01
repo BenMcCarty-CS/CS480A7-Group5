@@ -1,52 +1,7 @@
-import os
-from dotenv import load_dotenv
+from mine import HEADERS, EARLIEST_TIME, LATEST_TIME, URL, mine, rateLimitChecker
 from datetime import datetime as dt
-from zoneinfo import ZoneInfo
 import requests
 from make_csv import makeCSV
-
-
-load_dotenv()
-
-OWNER = "zephyrproject-rtos"
-REPO = "zephyr"
-URL = f"https://api.github.com/repos/{OWNER}/{REPO}/pulls"
-EARLIEST_TIME = dt.fromisoformat("2021-09-29T23:59:59Z")
-LATEST_TIME = dt.fromisoformat("2026-09-30T00:00:01Z")
-
-HEADERS = {
-	"Accept": "appliction/vnd.github+json",
-	"Authorization": f"Bearer {os.getenv("GITHUB_TOKEN")}",
-}
-
-
-def mine(page_limit, url):
-		params = {
-					"state": "closed",
-					"per_page": 100,
-					"page": 1
-				}
-		data = []
-		has_more_pages = True
-
-		print("Fetching data across pages...")
-
-		while has_more_pages:
-			print(f" Requesting page {params['page']}...")
-			response = requests.get(url, headers=HEADERS, params=params)
-			response.raise_for_status()
-
-			if response.status_code != 200:
-				raise PermissionError(f"Oh brother, Github's down again (or my token expired or I bricked the code). Error code is {response.status_code}")
-			page_data = response.json()
-			
-			if not page_data or params["page"] > page_limit:
-				has_more_pages = False
-				break
-
-			data.extend(page_data)
-			params["page"] += 1
-		return data
 
 
 
@@ -55,14 +10,23 @@ class PRData:
 
 	# Page limit is for testing purposes only, hence why the default is unlimited. 
 	def __init__(self, page_limit=2147483648):
-		self.prs = self.minePRs(page_limit, URL)
+		params = {
+							"state": "closed",
+							"per_page": 100,
+							"page": 1
+						}
+		self.prs = self.minePRs(page_limit, URL, params)
 		# Comments is a Dictionary, mapping PR number to a list of their associated comments json responses.
-		self.comments = self.mineComments(page_limit, self.prs)
-		print("All comments and PRs of relevance have been obtained.")
+		print("Getting comments...")
+		self.comments = self.mineExtraPRInformation(page_limit, self.prs, params, "review_comments_url")
+		# Commits is a Dictionary, mapping PR number to a list of their associated comments json responses.
+		print("Getting commits...")
+		self.commits = self.mineExtraPRInformation(page_limit, self.prs, params, "commits_url")
+		print("All comments, commits, and PRs of relevance have been obtained.")
 
 
-	def minePRs(self, page_limit, url):
-		initial_PRs = mine(page_limit, url)
+	def minePRs(self, page_limit, url, params):
+		initial_PRs = mine(page_limit, url, params)
 		relevant_PRs = []
 		for p in initial_PRs:
 			time_created = dt.fromisoformat(p["created_at"])
@@ -73,24 +37,20 @@ class PRData:
 			print(f"Requesting PR:{pr["number"]}'s metadata")
 			response = requests.get(url + f"/{pr["number"]}", headers=HEADERS)
 			response.raise_for_status()
-
-			if response.status_code != 200:
-					raise PermissionError(f"Oh brother, Github's down again (or my token expired or I bricked the code). Error code is {response.status_code}")
-
+			rateLimitChecker(response)
 			pr = response.json()
 			prs.append(pr)
 		return prs
 
 
-	def mineComments(self, page_limit, prs):
-		comments = {}
+	def mineExtraPRInformation(self, page_limit, prs, params, keyForURLOfInterest):
+		extraPRInfo = {}
 		for pr in prs:
-			print(f"Getting comments for PR {pr["number"]}")
-			url = pr["review_comments_url"]
-			comments_for_pr = mine(page_limit, url)
-			comments[pr["number"]] = comments_for_pr
-		return comments
-	
+			print(f"Getting extra PR information for PR {pr["number"]}")
+			url = pr[keyForURLOfInterest]
+			extraPRInfo_for_pr = mine(page_limit, url, params)
+			extraPRInfo[pr["number"]] = extraPRInfo_for_pr
+		return extraPRInfo
 			
 
 def main():
