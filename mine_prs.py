@@ -30,7 +30,7 @@ class PRData:
 		relevant_PRs = []
 		for p in initial_PRs:
 			time_created = dt.fromisoformat(p["created_at"])
-			if (p["draft"] == False) and (p["merged_at"] is not None) and (time_created > EARLIEST_TIME) and (time_created < LATEST_TIME):
+			if (p["draft"] == False) and (time_created > EARLIEST_TIME) and (time_created < LATEST_TIME):
 				relevant_PRs.append(p)
 		prs = []
 		for pr in relevant_PRs:
