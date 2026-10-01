@@ -1,4 +1,4 @@
-from mine import HEADERS, EARLIEST_TIME, LATEST_TIME, URL, mine
+from mine import HEADERS, EARLIEST_TIME, LATEST_TIME, URL, mine, rateLimitChecker
 from datetime import datetime as dt
 import requests
 from make_csv import makeCSV
@@ -17,8 +17,12 @@ class PRData:
 						}
 		self.prs = self.minePRs(page_limit, URL, params)
 		# Comments is a Dictionary, mapping PR number to a list of their associated comments json responses.
-		self.comments = self.mineComments(page_limit, self.prs, params)
-		print("All comments and PRs of relevance have been obtained.")
+		print("Getting comments...")
+		self.comments = self.mineExtraPRInformation(page_limit, self.prs, params, "review_comments_url")
+		# Commits is a Dictionary, mapping PR number to a list of their associated comments json responses.
+		print("Getting commits...")
+		self.commits = self.mineExtraPRInformation(page_limit, self.prs, params, "commits_url")
+		print("All comments, commits, and PRs of relevance have been obtained.")
 
 
 	def minePRs(self, page_limit, url, params):
@@ -33,24 +37,20 @@ class PRData:
 			print(f"Requesting PR:{pr["number"]}'s metadata")
 			response = requests.get(url + f"/{pr["number"]}", headers=HEADERS)
 			response.raise_for_status()
-
-			if response.status_code != 200:
-					raise PermissionError(f"Oh brother, Github's down again (or my token expired or I bricked the code). Error code is {response.status_code}")
-
+			rateLimitChecker(response)
 			pr = response.json()
 			prs.append(pr)
 		return prs
 
 
-	def mineComments(self, page_limit, prs, params):
+	def mineExtraPRInformation(self, page_limit, prs, params, keyForURLOfInterest):
 		comments = {}
 		for pr in prs:
-			print(f"Getting comments for PR {pr["number"]}")
-			url = pr["review_comments_url"]
+			print(f"Getting extra PR information for PR {pr["number"]}")
+			url = pr[keyForURLOfInterest]
 			comments_for_pr = mine(page_limit, url, params)
 			comments[pr["number"]] = comments_for_pr
 		return comments
-	
 			
 
 def main():
