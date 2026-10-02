@@ -2,6 +2,7 @@ from mine import HEADERS, EARLIEST_TIME, LATEST_TIME, URL, mine, rateLimitChecke
 from datetime import datetime as dt
 import requests
 from make_csv import makeCSV
+import time
 
 
 
@@ -35,11 +36,17 @@ class PRData:
 		prs = []
 		for pr in relevant_PRs:
 			print(f"Requesting PR:{pr["number"]}'s metadata")
-			response = requests.get(url + f"/{pr["number"]}", headers=HEADERS)
-			response.raise_for_status()
-			rateLimitChecker(response)
-			pr = response.json()
-			prs.append(pr)
+			try:
+				response = requests.get(url + f"/{pr["number"]}", headers=HEADERS)
+				rateLimitChecker(response)
+				pr = response.json()
+				prs.append(pr)
+			except requests.exceptions.ReadTimeout:
+				print("Request timed out... retrying after a brief sleep.")
+				time.sleep(5)
+			except requests.exceptions.ConnectTimeout:
+				print("Unable to connect to server! Likely an internet issue... going to sleep for a minute while it hopefully gets resolved.")
+				time.sleep(60)
 		return prs
 
 
@@ -55,7 +62,7 @@ class PRData:
 
 def main():
 	print("In Main")
-	makeCSV(PRData(1))
+	makeCSV(PRData())
 	print("Exiting Main")
 
 

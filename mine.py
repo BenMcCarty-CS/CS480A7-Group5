@@ -26,22 +26,28 @@ def mine(page_limit, url, params):
 
 		while has_more_pages:
 			print(f" Requesting page {params['page']}...")
-			response = requests.get(url, headers=HEADERS, params=params)
-			response.raise_for_status()
+			try:
+				response = requests.get(url, headers=HEADERS, params=params)
 
-			action = rateLimitChecker(response)
-			
-			if(action == "RESET"):
-				continue
-	
-			page_data = response.json()
-			
-			if not page_data or params["page"] > page_limit:
-				has_more_pages = False
-				break
+				action = rateLimitChecker(response)
+				
+				if(action == "RESET"):
+					continue
+		
+				page_data = response.json()
+				
+				if not page_data or params["page"] > page_limit:
+					has_more_pages = False
+					break
 
-			data.extend(page_data)	
-			params["page"] += 1
+				data.extend(page_data)	
+				params["page"] += 1
+			except requests.exceptions.ReadTimeout:
+				print("Request timed out... retrying after a brief sleep.")
+				time.sleep(5)
+			except requests.exceptions.ConnectTimeout:
+				print("Unable to connect to server! Likely an internet issue... going to sleep for a minute while it hopefully gets resolved.")
+				time.sleep(60)
 		params["page"] = 1
 		return data
 
