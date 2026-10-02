@@ -39,6 +39,10 @@ def mine(page_limit, url, params, stop_when=None):
 		data.extend(page_data)
 		params["page"] += 1
 
+		# A page shorter than per_page is the last one, so don't spend a request on the empty page after it.
+		if len(page_data) < params.get("per_page", 30):
+			break
+
 		if stop_when is not None and stop_when(page_data):
 			break
 	return data
