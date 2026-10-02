@@ -10,7 +10,7 @@ import json
 load_dotenv()
 
 OWNER = "zephyrproject-rtos"
-REPO = "zepyhr"
+REPO = "zephyr"
 
 CUURENT_TIME = dt.now(tz=ZoneInfo("UTC")).isoformat()
 
@@ -19,8 +19,8 @@ URL = f"https://api.github.com/repos/{OWNER}/{REPO}/"
 
 
 HEADERS = {
-	"Accept": "appliction/vnd.github+json",
-	"Authorization": f"Bearer {os.getenv('GITHUB_TOKEN)}",
+	"Accept": "application/vnd.github+json",
+	"Authorization": f"Bearer {os.getenv('GITHUB_TOKEN')}",
 }
 
 PARAMS = {

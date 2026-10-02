@@ -1,2 +1,7 @@
 .vscode/
 .env
+__pycache__/
+raw_data/
+PRs.csv
+Comments.csv
+Commits.csv
