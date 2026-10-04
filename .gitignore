@@ -5,3 +5,7 @@ raw_data/
 PRs.csv
 Comments.csv
 Commits.csv
+.venv/
+.DS_Store
+outputs/
+sample_data/
