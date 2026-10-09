@@ -42,6 +42,7 @@ def clean_data(PRs: str, commits: str, comments: str):
 
             if row['state'].strip().lower() == 'open':
                  continue
+            
             prNum = int(row['number'])
 
             isMerged = row.get('merged', '').strip().lower() == 'true' or bool(row.get('merged_at'))
@@ -55,6 +56,9 @@ def clean_data(PRs: str, commits: str, comments: str):
             additions = int(row['additions']) if row['additions'] else 0
             deletions = int(row['deletions']) if row['deletions'] else 0
             linesChanged = additions + deletions
+
+            if linesChanged == 0:
+                continue
 
             labelsJSON = json.loads(row['labels']) if row['labels'] else []
             labels = [label['name'] for label in labelsJSON]
