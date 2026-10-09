@@ -3,8 +3,9 @@ import json
 import sys
 from datetime import datetime, timezone
 from collections import defaultdict
+import ctypes
 
-csv.field_size_limit(sys.maxsize)
+csv.field_size_limit(int(ctypes.c_ulong(-1).value // 2))
 
 def writeCSV(outputFileName, rows):
     if not rows:
@@ -38,37 +39,46 @@ def clean_data(PRs: str, commits: str, comments: str):
 
     prsDict = {}
     with open(PRs, mode='r', encoding='utf-8') as f:
+        totalPRs = 0
+        totalCommitsPerComment = 0
+        totalTimeOpen = 0
         for row in csv.DictReader(f):
-
             if row['state'].strip().lower() == 'open':
                  continue
             
-            prNum = int(row['number'])
-
-            isMerged = row.get('merged', '').strip().lower() == 'true' or bool(row.get('merged_at'))
-            outcome = "merged" if isMerged else "closed"
-            endTimeStr = row['merged_at'] if isMerged else row['closed_at']
-            createdAt = datetime.fromisoformat(row['created_at'].replace('Z', '+00:00'))
-            endAt = datetime.fromisoformat(endTimeStr.replace('Z', '+00:00'))
-            timeSpentOpen = (endAt - createdAt).total_seconds() / 86400.0, 3
-
-
             additions = int(row['additions']) if row['additions'] else 0
             deletions = int(row['deletions']) if row['deletions'] else 0
             linesChanged = additions + deletions
 
             if linesChanged == 0:
                 continue
+            
+            prNum = int(row['number'])
+            print(f"Cleaning PR {prNum}...")
+
+            isMerged = row.get('merged', '').strip().lower() == 'true' or bool(row.get('merged_at'))
+            outcome = "merged" if isMerged else "closed"
+
+            endTimeStr = row['merged_at'] if isMerged else row['closed_at']
+            createdAt = datetime.fromisoformat(row['created_at'].replace('Z', '+00:00'))
+            endAt = datetime.fromisoformat(endTimeStr.replace('Z', '+00:00'))
+            timeSpentOpen = round((endAt - createdAt).total_seconds() / 86400.0, 3)
+            totalTimeOpen += timeSpentOpen
+            
 
             labelsJSON = json.loads(row['labels']) if row['labels'] else []
             labels = [label['name'] for label in labelsJSON]
 
             commentsList = commentsDict.get(prNum, [])
+            review_comments_number = int(row["review_comments"])
             commitsList = commitsDict.get(prNum, [])
 
-            numComments = len(commentsList)
+            numComments = len(commentsList) + review_comments_number
             numCommits = len(commitsList) if commitsList else (int(row['commits']) if row.get('commits') else 0)
-            commitsPerComment = (numCommits / numComments, 3) if numComments > 0 else None
+            if(numComments == 0 or numCommits == 0):
+                continue
+            commitsPerComment = round(numCommits / numComments, 3) if numComments > 0 else None
+            totalCommitsPerComment += commitsPerComment
 
             prsDict[prNum] = {
                         "status": outcome,
@@ -78,8 +88,33 @@ def clean_data(PRs: str, commits: str, comments: str):
                         "time_spent_open_days": timeSpentOpen,
                         "labels": labels,
                         "commits_per_comment": commitsPerComment
-                    }        
+                    }
+            totalPRs += 1
+        averageTimeSpentOpen = totalTimeOpen/totalPRs
+        averageCommitsPerComment = totalCommitsPerComment/totalPRs
+        for prNum in prsDict.keys():
+            deviation_from_average_time_spent_open = prsDict[prNum]["time_spent_open_days"] - averageTimeSpentOpen
+            prsDict[prNum]["deviation_from_average_time_spent_open"] = deviation_from_average_time_spent_open
+
+            deviation_from_average_commits_per_comments = prsDict[prNum]["commits_per_comment"] - averageCommitsPerComment
+            prsDict[prNum]["deviation_from_average_commits_per_comments"] = deviation_from_average_commits_per_comments
+
+            # A Negative PR Difficulty suggests it's easier than normal, a positive one suggests it's more difficult.
+            prsDict[prNum]["PR_Difficulty"] = round(deviation_from_average_commits_per_comments + deviation_from_average_time_spent_open, 3)
+
+
             
-    writeCSV("PR_Summary_Metrics.csv", list(prsDict.values()))          
+    writeCSV("PR_Summary_Metrics.csv", list(prsDict.values()))         
 
     return
+
+def main():
+    print("Cleaning data...")   
+    clean_data("PRs.csv", "Commits.csv", "Comments.csv")
+    print("Finished cleaning!")
+
+
+
+if __name__ == "__main__":
+    main()
+
