@@ -52,7 +52,9 @@ def clean_data(PRs: str, commits: str, comments: str):
 
             if linesChanged == 0:
                 continue
-            
+
+            userJSON = json.loads(row['user']) if row['user'] else []
+            userName = userJSON["login"] if userJSON['login'] else "ANON"
             prNum = int(row['number'])
             print(f"Cleaning PR {prNum}...")
 
@@ -62,8 +64,10 @@ def clean_data(PRs: str, commits: str, comments: str):
             endTimeStr = row['merged_at'] if isMerged else row['closed_at']
             createdAt = datetime.fromisoformat(row['created_at'].replace('Z', '+00:00'))
             endAt = datetime.fromisoformat(endTimeStr.replace('Z', '+00:00'))
+            if((endAt - createdAt).total_seconds() <= 30):
+                continue
             timeSpentOpen = round((endAt - createdAt).total_seconds() / 86400.0, 3)
-            totalTimeOpen += timeSpentOpen
+            
             
 
             labelsJSON = json.loads(row['labels']) if row['labels'] else []
@@ -78,7 +82,6 @@ def clean_data(PRs: str, commits: str, comments: str):
             if(numComments == 0 or numCommits == 0):
                 continue
             commitsPerComment = round(numCommits / numComments, 3) if numComments > 0 else None
-            totalCommitsPerComment += commitsPerComment
 
             prsDict[prNum] = {
                         "status": outcome,
@@ -87,9 +90,14 @@ def clean_data(PRs: str, commits: str, comments: str):
                         "deletions": deletions,
                         "time_spent_open_days": timeSpentOpen,
                         "labels": labels,
-                        "commits_per_comment": commitsPerComment
+                        "commits_per_comment": commitsPerComment,
+                        "committer" : userName
                     }
+            
             totalPRs += 1
+            totalTimeOpen += timeSpentOpen
+            totalCommitsPerComment += commitsPerComment
+
         averageTimeSpentOpen = totalTimeOpen/totalPRs
         averageCommitsPerComment = totalCommitsPerComment/totalPRs
         for prNum in prsDict.keys():
@@ -117,4 +125,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
