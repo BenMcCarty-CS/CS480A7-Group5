@@ -48,6 +48,7 @@ def clean_data(PRs: str, commits: str, comments: str):
             
             additions = int(row['additions']) if row['additions'] else 0
             deletions = int(row['deletions']) if row['deletions'] else 0
+            filesChanged = int(row['changed_files']) if row['changed_files'] else 0
             linesChanged = additions + deletions
 
             if linesChanged == 0:
@@ -91,7 +92,8 @@ def clean_data(PRs: str, commits: str, comments: str):
                         "time_spent_open_days": timeSpentOpen,
                         "labels": labels,
                         "commits_per_comment": commitsPerComment,
-                        "committer" : userName
+                        "committer" : userName,
+                        'changed_files': filesChanged
                     }
             
             totalPRs += 1
