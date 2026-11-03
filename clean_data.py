@@ -85,6 +85,7 @@ def clean_data(PRs: str, commits: str, comments: str):
             commitsPerComment = round(numCommits / numComments, 3) if numComments > 0 else None
 
             prsDict[prNum] = {
+                        "pr_number": prNum,
                         "status": outcome,
                         "lines_changed": linesChanged,
                         "additions": additions,
