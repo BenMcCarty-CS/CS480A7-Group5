@@ -121,7 +121,7 @@ def clean_data(PRs: str, commits: str, comments: str):
 
 def main():
     print("Cleaning data...")   
-    clean_data("PRs.csv", "Commits.csv", "Comments.csv")
+    clean_data("raw_data/PRs.csv", "raw_data/Commits.csv", "raw_data/Comments.csv")
     print("Finished cleaning!")
 
 
