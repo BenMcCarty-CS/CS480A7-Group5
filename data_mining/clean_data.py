@@ -92,6 +92,10 @@ def clean_data(PRs: str, commits: str, comments: str):
                         "deletions": deletions,
                         "time_spent_open_days": timeSpentOpen,
                         "labels": labels,
+                        "num_review_comments": review_comments_number,
+                        "num_comments": len(commentsList),
+                        "num_comments_total": numComments,
+                        "num_commits": numCommits,
                         "commits_per_comment": commitsPerComment,
                         "committer" : userName,
                         'changed_files': filesChanged
@@ -111,7 +115,7 @@ def clean_data(PRs: str, commits: str, comments: str):
             prsDict[prNum]["deviation_from_average_commits_per_comments"] = deviation_from_average_commits_per_comments
 
             # A Negative PR Difficulty suggests it's easier than normal, a positive one suggests it's more difficult.
-            prsDict[prNum]["PR_Difficulty"] = round(deviation_from_average_commits_per_comments + deviation_from_average_time_spent_open, 3)
+            #prsDict[prNum]["PR_Difficulty"] = round(deviation_from_average_commits_per_comments + deviation_from_average_time_spent_open, 3)
 
 
             

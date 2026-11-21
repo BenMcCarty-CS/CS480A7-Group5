@@ -2,6 +2,7 @@
 .env
 __pycache__/
 raw_data/
+raw_data_old/
 PRs.csv
 Comments.csv
 Commits.csv
