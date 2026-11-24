@@ -67,7 +67,7 @@ def clean_data(PRs: str, commits: str, comments: str):
             endAt = datetime.fromisoformat(endTimeStr.replace('Z', '+00:00'))
             if((endAt - createdAt).total_seconds() <= 30):
                 continue
-            timeSpentOpen = round((endAt - createdAt).total_seconds() / 86400.0, 3)
+            timeSpentOpen = round((endAt - createdAt).total_seconds() / 3600.0, 3)
             
             
 
@@ -90,7 +90,7 @@ def clean_data(PRs: str, commits: str, comments: str):
                         "lines_changed": linesChanged,
                         "additions": additions,
                         "deletions": deletions,
-                        "time_spent_open_days": timeSpentOpen,
+                        "time_spent_open_hours": timeSpentOpen,
                         "labels": labels,
                         "num_review_comments": review_comments_number,
                         "num_comments": len(commentsList),
@@ -108,7 +108,7 @@ def clean_data(PRs: str, commits: str, comments: str):
         averageTimeSpentOpen = totalTimeOpen/totalPRs
         averageCommitsPerComment = totalCommitsPerComment/totalPRs
         for prNum in prsDict.keys():
-            deviation_from_average_time_spent_open = prsDict[prNum]["time_spent_open_days"] - averageTimeSpentOpen
+            deviation_from_average_time_spent_open = prsDict[prNum]["time_spent_open_hours"] - averageTimeSpentOpen
             prsDict[prNum]["deviation_from_average_time_spent_open"] = deviation_from_average_time_spent_open
 
             deviation_from_average_commits_per_comments = prsDict[prNum]["commits_per_comment"] - averageCommitsPerComment
