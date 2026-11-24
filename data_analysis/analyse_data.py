@@ -1,8 +1,16 @@
 import csv
+import math
 
 def calculate_PR_difficulty(row): #This calculates review difficulty
 
-    return int(row['num_review_comments']) + float(row['time_spent_open_days'])
+    commits = int(row.get('num_commits', 0))
+    comments = int(row.get('num_comments_total', 0))
+    hours_open = float(row.get('time_spent_open_hours', 0))
+    lines_changed = int(row.get('lines_changed', 0))
+
+    prDifficulty = (.4 * math.log1p(commits)) + (.25 * math.log1p(comments)) + (.2 * math.log1p(hours_open)) + (.15 * math.log1p(lines_changed))
+
+    return prDifficulty
 
 def analyse_data(cleanedDataFileName: str, outputFileName: str):
 
