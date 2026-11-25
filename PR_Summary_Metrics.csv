@@ -1,0 +1,89 @@
+pr_number,status,lines_changed,additions,deletions,time_spent_open_hours,labels,num_bot_comments,num_comments,num_commits,commits_per_comment,committer,changed_files,review_rounds,deviation_from_average_time_spent_open,deviation_from_average_commits_per_comments
+126352,merged,3,3,0,97.876,"['platform: Silabs', 'area: Boards/SoCs', 'size: S']",0,4,2,0.5,JordanYates,1,1,15.97262499999998,-0.014568181818181647
+126357,merged,342,295,47,97.496,"['platform: NXP', 'platform: NXP MPU', 'area: Boards/SoCs', 'size: L']",0,4,9,2.25,yangbolu1991,15,3,15.59262499999997,1.7354318181818185
+126359,merged,3,3,0,97.332,"['area: Tests', 'area: Disk Access', 'area: Retained Memory', 'size: S']",0,3,1,0.333,hakehuang,1,1,15.428624999999968,-0.18156818181818163
+126375,merged,8,5,3,100.315,"['area: Twister', 'ai-review', 'size: S']",8,10,2,0.2,VynDragon,2,3,18.411624999999972,-0.31456818181818164
+126377,merged,412,408,4,99.987,"['area: Networking', 'area: Tests', 'size: L']",2,7,1,0.143,martin-akerberg,6,3,18.08362499999997,-0.37156818181818163
+126379,merged,5,0,5,99.261,"['platform: STM32', 'area: Ethernet', 'size: S']",0,2,1,0.5,juickar,1,1,17.35762499999997,-0.014568181818181647
+126381,merged,2,2,0,99.089,"['area: Networking', 'area: Tests', 'area: HTTP', 'size: S']",0,3,1,0.333,djiatsaf-st,1,1,17.185624999999973,-0.18156818181818163
+126393,merged,4,3,1,100.444,"['area: PWM', 'platform: nRF', 'size: S']",0,3,1,0.333,mib1-nordic,1,2,18.540624999999977,-0.18156818181818163
+126407,merged,9,9,0,98.316,"['area: MAINTAINER File', 'size: S']",0,3,1,0.333,alitalhq,1,1,16.412624999999977,-0.18156818181818163
+126408,merged,434,415,19,99.805,"['area: Networking', 'area: Tests', 'ai-review', 'size: L']",9,7,2,0.286,pdgendt,5,3,17.90162499999998,-0.22856818181818167
+126412,merged,4,2,2,99.046,"['platform: NXP', 'platform: NXP MCU', 'area: Boards/SoCs', 'size: S']",0,3,1,0.333,butok,1,1,17.14262499999998,-0.18156818181818163
+126414,merged,14,11,3,27.261,"['Trivial', 'area: Continuous Integration', 'size: M']",0,4,1,0.25,nashif,1,3,-54.64237500000003,-0.26456818181818165
+126419,merged,52,26,26,98.546,"['platform: nRF', 'size: L']",0,4,1,0.25,adamkondraciuk,1,3,16.64262499999998,-0.26456818181818165
+126421,merged,10,10,0,126.5,"['area: Networking', 'area: Sockets', 'size: M']",0,3,1,0.333,rlubos,2,1,44.596624999999975,-0.18156818181818163
+126424,merged,208,153,55,115.45,"['area: Counter', 'Backport', 'manifest', 'manifest-hal_renesas', 'platform: Renesas RA', 'size: L']",0,2,3,1.5,github-actions[bot],3,1,33.54662499999998,0.9854318181818184
+126427,merged,16,7,9,105.209,"['area: Bluetooth', 'area: Bluetooth Controller', 'ai-review', 'size: M']",0,2,1,0.5,jhedberg,1,1,23.305624999999978,-0.014568181818181647
+126429,merged,1,0,1,26.058,"['area: Clock Control', 'Trivial', 'size: XS']",0,3,1,0.333,soburi,1,1,-55.845375000000026,-0.18156818181818163
+126431,merged,2,1,1,97.685,"['platform: nRF', 'size: XS', 'area: Boards/SoCs']",2,3,1,0.333,crfosse,1,1,15.781624999999977,-0.18156818181818163
+126432,merged,2,1,1,22.886,"['area: Kernel', 'Trivial', 'size: XS']",0,3,1,0.333,felipe-iar,1,1,-59.01737500000003,-0.18156818181818163
+126433,merged,3,3,0,97.497,"['area: MAINTAINER File', 'size: S']",0,3,1,0.333,valeriosetti,1,1,15.593624999999975,-0.18156818181818163
+126434,merged,2,2,0,109.216,"['area: Devicetree', 'Trivial', 'area: Devicetree Binding', 'area: W1', 'size: S']",0,3,1,0.333,str4t0m,1,1,27.31262499999997,-0.18156818181818163
+126435,merged,86,79,7,97.369,"['area: UART', 'platform: ESP32', 'area: Devicetree Binding', 'Release', 'size: L']",0,2,2,1.0,sylvioalves,4,1,15.465624999999974,0.48543181818181835
+126437,merged,13,8,5,97.276,"['area: W1', 'platform: ADI', 'size: M']",0,2,1,0.5,str4t0m,7,1,15.372624999999971,-0.014568181818181647
+126440,merged,233,220,13,114.11,"['area: Networking', 'area: Tests', 'Backport', 'size: L']",1,3,3,1.0,jukkar,4,1,32.206624999999974,0.48543181818181835
+126442,merged,3,2,1,101.082,"['platform: STM32', 'area: Ethernet', 'size: S']",0,2,1,0.5,martin-akerberg,1,1,19.17862499999997,-0.014568181818181647
+126443,merged,2,1,1,101.044,"['area: Build System', 'area: Toolchains', 'size: XS']",0,3,1,0.333,kartben,1,1,19.14062499999997,-0.18156818181818163
+126454,merged,757,757,0,100.433,"['area: PWM', 'area: Counter', 'platform: STM32', 'area: Tests', 'area: Boards/SoCs', 'ai-review', 'size: XL']",1,7,5,0.714,juickar,7,3,18.52962499999998,0.19943181818181832
+126465,merged,41,41,0,99.448,"['area: Flash', 'platform: NXP', 'size: M']",0,3,1,0.333,iha,1,1,17.544624999999968,-0.18156818181818163
+126467,merged,12,4,8,99.183,"['platform: ADI', 'area: MFD', 'size: M']",0,2,2,1.0,kartben,1,1,17.27962499999998,0.48543181818181835
+126468,merged,90,89,1,99.107,"['area: Samples', 'area: Tests', 'area: West', 'area: MCUBoot', 'area: Sysbuild', 'area: Bootloader', 'area: Boards/SoCs', 'platform: Alif Semiconductor', 'size: L']",0,6,5,0.833,MaureenHelm,7,1,17.203624999999974,0.3184318181818183
+126469,merged,1,1,0,99.088,"['area: Networking', 'size: XS']",2,2,1,0.5,waldemar-kindler,1,1,17.18462499999997,-0.014568181818181647
+126470,merged,6,3,3,98.992,"['dependencies', 'area: Documentation Infrastructure', 'python:uv', 'size: S']",0,2,1,0.5,dependabot[bot],1,1,17.08862499999998,-0.014568181818181647
+126472,merged,8,4,4,22.744,"['Trivial', 'area: Continuous Integration', 'dependencies', 'platform: nRF BSIM', 'github_actions', 'size: S']",0,3,1,0.333,dependabot[bot],4,1,-59.159375000000026,-0.18156818181818163
+126481,merged,5,5,0,115.823,"['Release', 'size: S']",0,2,1,0.5,walidbadar,1,1,33.91962499999997,-0.014568181818181647
+126487,merged,4,4,0,18.314,"['Trivial', 'area: MAINTAINER File', 'size: S']",0,4,1,0.25,MaureenHelm,1,1,-63.589375000000025,-0.26456818181818165
+126488,merged,2,1,1,97.052,"['size: XS', 'area: MAINTAINER File']",0,3,1,0.333,keith-zephyr,1,1,15.148624999999981,-0.18156818181818163
+126498,merged,11,11,0,107.91,"['area: Watchdog', 'platform: NXP', 'size: M']",0,7,2,0.286,ZhaoxiangJin,1,3,26.00662499999997,-0.22856818181818167
+126504,merged,386,374,12,105.911,"['area: Tests', 'area: Modem Drivers', 'AI-assisted', 'ai-review', 'size: L']",3,3,2,0.667,ceolin,5,1,24.007624999999976,0.1524318181818184
+126510,merged,18,14,4,103.861,"['area: Networking', 'area: DSA', 'size: M']",1,4,1,0.25,srvanloon-priv,2,3,21.95762499999998,-0.26456818181818165
+126519,merged,148,137,11,97.309,"['area: Tests', 'area: mcumgr', 'Backport', 'size: L']",0,3,2,0.667,github-actions[bot],5,1,15.405624999999972,0.1524318181818184
+126521,merged,37,27,10,1.026,"['area: Bluetooth', 'area: Tests', 'Hotfix', 'area: Bluetooth Audio', 'platform: nRF BSIM', 'size: M']",0,4,1,0.25,jhedberg,2,1,-80.87737500000003,-0.26456818181818165
+126522,merged,2,1,1,100.874,"['size: XS', 'platform: WinChipHead', 'platforms: RISCV']",0,3,1,0.333,dasrue,1,1,18.97062499999997,-0.18156818181818163
+126525,merged,2,1,1,9.283,"['area: Networking', 'area: Tests', 'area: Sockets', 'Trivial', 'size: XS']",2,2,1,0.5,Elegy-1216,1,1,-72.62037500000002,-0.014568181818181647
+126533,merged,94,92,2,98.655,"['area: Tests', 'area: Stepper', 'size: L']",0,5,3,0.6,kartben,5,3,16.751624999999976,0.08543181818181833
+126534,merged,39,19,20,98.594,"['area: Networking', 'area: Tests', 'area: HTTP', 'size: M']",0,3,1,0.333,Elegy-1216,1,1,16.69062499999997,-0.18156818181818163
+126539,merged,6,3,3,98.382,"['area: Power Management', 'size: S']",0,4,1,0.25,adamkondraciuk,1,1,16.47862499999998,-0.26456818181818165
+126541,merged,2,1,1,70.639,"['Trivial', 'size: XS', 'area: Boards/SoCs', 'platform: Microchip PIC32']",0,4,1,0.25,muhammed-azf,1,1,-11.26437500000003,-0.26456818181818165
+126550,merged,230,109,121,102.698,"['area: OCPP', 'size: L']",1,3,1,0.333,kartben,5,3,20.794624999999968,-0.18156818181818163
+126555,merged,10,8,2,97.864,"['platform: nRF', 'area: Boards/SoCs', 'size: M']",0,2,1,0.5,rob-robinson-14,2,1,15.960624999999979,-0.014568181818181647
+126559,merged,224,115,109,109.014,"['area: Bluetooth', 'platform: Silabs', 'area: Bluetooth HCI', 'size: L']",0,3,5,1.667,jerome-pouiller,1,3,27.11062499999997,1.1524318181818183
+126563,merged,3,2,1,99.589,"['area: Regulators', 'platform: TI MSPM', 'size: S']",0,2,1,0.5,kartben,1,1,17.685624999999973,-0.014568181818181647
+126564,merged,27,25,2,99.541,"['area: Watchdog', 'platform: STM32', 'area: Tests', 'area: Boards/SoCs', 'size: M']",0,5,4,0.8,juickar,6,3,17.63762499999997,0.2854318181818184
+126566,merged,4,2,2,99.444,"['area: ADC', 'platform: TI MSPM', 'size: S']",0,3,1,0.333,kartben,1,3,17.540624999999977,-0.18156818181818163
+126567,merged,8,6,2,107.71,"['area: ADC', 'platform: TI MSPM', 'size: S']",0,2,1,0.5,kartben,1,3,25.80662499999997,-0.014568181818181647
+126568,merged,9,2,7,99.444,"['area: ADC', 'area: Devicetree Binding', 'platform: TI MSPM', 'size: S']",0,2,1,0.5,kartben,2,1,17.540624999999977,-0.014568181818181647
+126573,merged,22,16,6,98.79,"['area: ADC', 'platform: STM32', 'size: M']",0,5,1,0.2,mathieuchopstm,1,3,16.88662499999998,-0.31456818181818164
+126575,merged,8,8,0,98.168,"['Release', 'size: S']",0,3,1,0.333,elyorbek010,1,1,16.26462499999998,-0.18156818181818163
+126580,merged,273,264,9,98.256,"['area: Networking', 'area: Tests', 'Backport', 'size: L']",0,3,5,1.667,d3zd3z,4,1,16.352624999999975,1.1524318181818183
+126581,merged,32,19,13,97.56,"['area: Networking', 'area: I2C', 'area: Samples', 'area: Shell', 'area: POSIX', 'area: Modem', 'area: Base OS', 'platform: Nuvoton NPCX', 'platform: TI SimpleLink', 'area: Modem Drivers', 'ai-review', 'size: M']",1,4,6,1.5,ndrs-pst,9,1,15.656624999999977,0.9854318181818184
+126584,merged,6,3,3,97.189,"['platform: STM32', 'area: Ethernet', 'size: S']",0,3,1,0.333,ndrs-pst,1,1,15.285624999999968,-0.18156818181818163
+126585,merged,40,20,20,43.993,"['platform: STM32', 'platform: NXP', 'area: Ethernet', 'platform: ESP32', 'Trivial', 'platform: Infineon', 'platform: sensry', 'size: M']",0,2,1,0.5,ndrs-pst,20,1,-37.91037500000002,-0.014568181818181647
+126592,merged,2,1,1,104.073,"['area: Sensors', 'area: Devicetree Binding', 'platform: ADI', 'size: XS', 'ai-review']",1,3,1,0.333,jhedberg,1,1,22.169624999999968,-0.18156818181818163
+126598,merged,4,2,2,67.706,"['Trivial', 'area: MAINTAINER File', 'size: S']",0,3,1,0.333,danieldegrasse,1,1,-14.197375000000022,-0.18156818181818163
+126600,merged,8,4,4,102.947,"['area: Networking', 'size: S']",1,4,1,0.25,benedekkupper,1,3,21.043624999999977,-0.26456818181818165
+126604,merged,15,14,1,102.246,"['area: Tests', 'area: Utilities', 'ai-review', 'size: M']",1,2,1,0.5,Denny-Lin,2,1,20.34262499999997,-0.014568181818181647
+126610,merged,2,1,1,101.09,"['area: Samples', 'area: Video', 'size: XS']",0,2,1,0.5,changyeon-jo,1,1,19.186624999999978,-0.014568181818181647
+126611,merged,11,8,3,101.091,"['area: Video', 'size: M']",0,2,1,0.5,changyeon-jo,1,1,19.18762499999997,-0.014568181818181647
+126617,merged,70,70,0,100.017,"['area: Sensors', 'area: Tests', 'size: L']",0,2,1,0.5,justindvs,3,1,18.11362499999997,-0.014568181818181647
+126619,merged,8,4,4,56.61,"['bug', 'area: GPIO', 'Trivial', 'area: Devicetree Binding', 'platform: Renesas RA', 'backport v4.4-branch', 'backport v4.5-branch', 'size: S']",0,3,1,0.333,tpambor,1,1,-25.293375000000026,-0.18156818181818163
+126628,merged,4,2,2,90.558,"['area: Build System', 'size: S']",0,2,1,0.5,Keshavkumar04,1,1,8.654624999999982,-0.014568181818181647
+126629,merged,270,204,66,89.735,"['platform: NXP', 'area: Tests', 'area: Clock Control', 'area: Devicetree Binding', 'area: Regulators', 'platform: NXP MCU', 'area: Boards/SoCs', 'size: L']",0,11,11,1.0,ZhaoxiangJin,7,3,7.831624999999974,0.48543181818181835
+126643,merged,9,7,2,84.489,"['platform: STM32', 'area: Boards/SoCs', 'size: S']",0,6,1,0.167,lvbor,1,3,2.585624999999979,-0.3475681818181816
+126651,merged,369,360,9,80.549,"['area: Networking', 'area: Tests', 'ai-review', 'size: L']",24,25,4,0.16,walidbadar,4,5,-1.3543750000000188,-0.3545681818181816
+126652,merged,10,8,2,80.55,"['area: mcumgr', 'backport v4.4-branch', 'backport v4.5-branch', 'ai-review', 'size: M']",1,2,1,0.5,walidbadar,1,3,-1.3533750000000282,-0.014568181818181647
+126662,merged,2,1,1,74.607,"['platform: nRF', 'area: Crypto / RNG', 'size: XS']",0,4,1,0.25,JordanYates,1,1,-7.296375000000026,-0.26456818181818165
+126683,closed,226,223,3,31.496,"['area: Networking', 'area: Tests', 'area: Sockets', 'size: L']",1,1,1,1.0,TheArkadiuszGrzelka,2,1,-50.40737500000003,0.48543181818181835
+126693,merged,28,26,2,63.182,"['area: Kernel', 'area: Base OS', 'size: M']",0,5,2,0.4,zevorn,3,3,-18.721375000000023,-0.11456818181818162
+126695,merged,2,2,0,27.235,"['Trivial', 'area: MAINTAINER File', 'size: S']",0,2,1,0.5,JordanYates,1,1,-54.668375000000026,-0.014568181818181647
+126700,merged,2,1,1,47.461,"['Trivial', 'area: Continuous Integration', 'size: XS']",0,2,1,0.5,nashif,1,1,-34.44237500000003,-0.014568181818181647
+126706,merged,25,14,11,60.854,"['area: mcumgr', 'backport v4.4-branch', 'backport v4.5-branch', 'size: M']",0,6,2,0.333,pdgendt,1,3,-21.049375000000026,-0.18156818181818163
+126711,merged,8,8,0,59.392,"['area: Bluetooth', 'area: Bluetooth Host', 'size: S']",0,2,1,0.5,jhedberg,1,1,-22.511375000000022,-0.014568181818181647
+126722,merged,7,6,1,55.963,"['platform: NXP', 'area: Audio', 'size: S']",0,4,2,0.5,mohittalwar23,1,1,-25.940375000000024,-0.014568181818181647
+126729,merged,159,122,37,52.514,"['area: Networking', 'area: Tests', 'size: L']",1,4,3,0.75,serges147,4,3,-29.389375000000022,0.23543181818181835
+126771,merged,11,0,11,2.001,"['platform: NXP', 'Hotfix', 'platform: NXP MCU', 'area: Boards/SoCs', 'size: M']",0,4,1,0.25,mathieuchopstm,1,1,-79.90237500000002,-0.26456818181818165
+126789,merged,154,10,144,3.058,"['Trivial', 'area: Twister', 'size: L']",0,3,1,0.333,nashif,4,1,-78.84537500000002,-0.18156818181818163
+126828,closed,2,1,1,25.282,"['platform: NXP', 'platform: NXP MPU', 'size: XS']",0,1,1,1.0,iuliana-prodan,1,1,-56.62137500000003,0.48543181818181835
+126831,closed,7972208,7972208,0,23.322,"['area: Networking', 'area: Tests', 'area: Sockets', 'area: Base OS', 'ai-review', 'size: M']",1,2,1,0.5,harshitnub077,71584,3,-58.58137500000002,-0.014568181818181647
+126841,merged,3,3,0,1.425,"['Hotfix', 'area: Linters', 'ai-review', 'size: S']",1,6,1,0.167,jhedberg,1,1,-80.47837500000003,-0.3475681818181816
