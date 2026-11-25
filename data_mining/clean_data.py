@@ -94,7 +94,8 @@ def clean_data(PRs: str, commits: str, comments: str):
             # How many times we switch from committing and reviewing. It approximates the amount of 
             # "review rounds" the PR went through.  
             for interaction in all_PR_interactions:
-                if "user" in interaction and (json.loads(interaction["user"])["type"] == "Bot" or "[bot]" in json.loads(interaction["user"])["login"]):
+                if ("user" in interaction and interaction["user"] != None and interaction["user"] != "" and 
+                    (json.loads(interaction["user"])["type"] == "Bot" or "[bot]" in json.loads(interaction["user"])["login"])):
                     botComments += 1
                 elif "comment_type" in interaction and isOnCommitCycle == True:
                     review_rounds += 1
