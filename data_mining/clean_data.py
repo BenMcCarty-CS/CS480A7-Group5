@@ -73,12 +73,35 @@ def clean_data(PRs: str, commits: str, comments: str):
 
             labelsJSON = json.loads(row['labels']) if row['labels'] else []
             labels = [label['name'] for label in labelsJSON]
-
             commentsList = commentsDict.get(prNum, [])
-            review_comments_number = int(row["review_comments"])
             commitsList = commitsDict.get(prNum, [])
-
-            numComments = len(commentsList) + review_comments_number
+            for commit in commitsList:
+                commit["created_at"] = json.loads(commit["commit"])["committer"]["date"]
+                print(f"Created at: {commit['created_at']}")
+            numComments = 0
+            for comment in commentsList:
+                if comment["comment_type"] == "review":
+                    if comment["state"] == "PENDING":
+                        continue
+                    comment["created_at"] = comment["submitted_at"]
+                    numComments += 1
+            all_PR_interactions = commentsList + commitsList
+            review_rounds = 0
+            all_PR_interactions = sorted(all_PR_interactions, key=lambda x: datetime.fromisoformat(x["created_at"]))
+            isOnCommitCycle = True
+            botComments = 0
+            # This just goes through our list of interactions chronologically and counts
+            # How many times we switch from committing and reviewing. It approximates the amount of 
+            # "review rounds" the PR went through.  
+            for interaction in all_PR_interactions:
+                if "user" in interaction and (json.loads(interaction["user"])["type"] == "Bot" or "[bot]" in json.loads(interaction["user"])["login"]):
+                    botComments += 1
+                elif "comment_type" in interaction and isOnCommitCycle == True:
+                    review_rounds += 1
+                    isOnCommitCycle = False
+                elif "comment_type" not in interaction and isOnCommitCycle == False:
+                    review_rounds += 1
+                    isOnCommitCycle = True
             numCommits = len(commitsList) if commitsList else (int(row['commits']) if row.get('commits') else 0)
             if(numComments == 0 or numCommits == 0):
                 continue
@@ -92,13 +115,13 @@ def clean_data(PRs: str, commits: str, comments: str):
                         "deletions": deletions,
                         "time_spent_open_hours": timeSpentOpen,
                         "labels": labels,
-                        "num_review_comments": review_comments_number,
-                        "num_comments": len(commentsList),
-                        "num_comments_total": numComments,
+                        "num_bot_comments": botComments,
+                        "num_comments": numComments,
                         "num_commits": numCommits,
                         "commits_per_comment": commitsPerComment,
                         "committer" : userName,
-                        'changed_files': filesChanged
+                        'changed_files': filesChanged,
+                        "review_rounds": review_rounds
                     }
             
             totalPRs += 1
@@ -125,7 +148,7 @@ def clean_data(PRs: str, commits: str, comments: str):
 
 def main():
     print("Cleaning data...")   
-    clean_data("raw_data/PRs.csv", "raw_data/Commits.csv", "raw_data/Comments.csv")
+    clean_data("PRs.csv", "Commits.csv", "Comments.csv")
     print("Finished cleaning!")
 
 
